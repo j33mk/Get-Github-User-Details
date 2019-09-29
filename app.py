@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 from get_email_script.get_email import get_email
 
@@ -16,6 +16,14 @@ def index():
         return render_template('index.html', username=results)
 
     return render_template('index.html', )
+
+
+@app.route('/github_get', methods=['GET'])
+def github_get():
+    if request.method == 'GET':
+        username = request.args.get('username', 0, type=str)
+        results = get_email(username)
+        return jsonify(results)
 
 
 if __name__ == "__main__":  # main function for the python

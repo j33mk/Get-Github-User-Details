@@ -4,6 +4,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="author" content="colorlib.com" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>Github Email Finder</title>
     <link
       href="https://fonts.googleapis.com/css?family=Poppins"
@@ -14,24 +20,85 @@
       type="text/css"
       href="{{ url_for('static', filename='css/main.css') }}"
     />
+    <script type="text/javascript">
+      $(function() {
+        $("#getJsonData").click(function(e) {
+          e.preventDefault();
+          var userName = $("#txtUserName").val();
+          $.get(
+            "http://127.0.0.1:5000/github_get",
+            { username: userName },
+            function(data) {
+              if (data) {
+                $("#result").text(data);
+                $("#gitHubModal").modal("show");
+              }
+            }
+          );
+        });
+      });
+    </script>
   </head>
 
   <body>
-    <div>
-      {{ username }}
+    <div
+      class="modal fade"
+      id="gitHubModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Message</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <span id="result"></span>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="s003">
+      <h1>Github Email Finder</h1>
       <form action="" method="POST">
         <div class="inner-form">
           <div class="input-field second-wrap">
             <input
               name="username"
+              id="txtUserName"
               type="text"
               placeholder="Enter username of github?"
             />
           </div>
           <div class="input-field third-wrap">
-            <button class="btn-search" type="submit">
+            <button class="btn-search" id="getJsonData">
+              <!-- <button
+                      type="button"
+                      class="btn btn-info btn-lg"
+                      data-toggle="modal"
+                      data-target="#myModal"
+                    >
+                      Open Modal
+                    </button> -->
               <svg
                 class="svg-inline--fa fa-search fa-w-16"
                 aria-hidden="true"
@@ -52,5 +119,4 @@
       </form>
     </div>
   </body>
-  <!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
